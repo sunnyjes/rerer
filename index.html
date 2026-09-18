@@ -2599,6 +2599,29 @@
 /* ---------- 하나(고객관리) 리뷰 인용 ---------- */
 .mvp-review-quote { margin-top: 16px; padding: 14px 16px; background: var(--paper-deep); border-radius: 12px; border: 1px solid var(--card-line); }
 
+/* ---------- 하나(예약・고객관리) 전면 재정의(2026-09) -- 오늘 예약 목록/상태 배지 ----------
+   확인 필요/요청사항 있음/미확정 상태는 --tag-biz 기반 amber 배지로 강조한다
+   (.today-staff-status.is-ready와 동일한 색 조합을 재사용해 새 색을 만들지 않음). */
+.hana-reserv-list { list-style: none; margin: 12px 0 0; padding: 0; }
+.hana-reserv-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--card-line); flex-wrap: wrap; }
+.hana-reserv-row:first-child { border-top: none; padding-top: 0; }
+.hana-reserv-time { font-weight: 800; font-size: 0.86rem; width: 76px; flex-shrink: 0; }
+.hana-reserv-info { flex: 1 1 auto; min-width: 180px; font-size: 0.86rem; }
+.hana-reserv-meta { font-size: 0.78rem; color: var(--ink-soft); }
+.hana-reserv-status { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
+.hana-reserv-status.is-confirmed { color: var(--ink-soft); background: color-mix(in srgb, var(--card-line) 70%, transparent); }
+.hana-reserv-status.is-attention { color: #6b4e0a; background: color-mix(in srgb, var(--tag-biz) 45%, transparent); }
+.hana-finding-list, .hana-followup-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.hana-finding-list li, .hana-followup-list li { font-size: 0.86rem; padding-left: 18px; position: relative; }
+.hana-finding-list li::before { content: "•"; position: absolute; left: 0; color: var(--tag-biz); font-weight: 800; }
+.hana-followup-list li::before { content: "•"; position: absolute; left: 0; color: var(--ink-soft); font-weight: 800; }
+.hana-inquiry-item { padding: 12px 0; border-top: 1px solid var(--card-line); }
+.hana-inquiry-item:first-child { border-top: none; padding-top: 0; }
+.hana-inquiry-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: color-mix(in srgb, var(--ink-soft) 12%, transparent); color: var(--ink-soft); margin-right: 6px; }
+.hana-review-subcard { margin-top: 20px; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--card-line); background: var(--card); }
+.hana-review-subcard .eyebrow { font-size: 0.68rem; }
+.hana-review-subcard h3 { margin: 6px 0 4px; font-size: 0.96rem; }
+
 /* ---------- 수진에게 자연어로 업무 맡기기 ---------- */
 .nl-task-box { margin-top: 16px; padding: 20px 22px; background: var(--card); border: 1px solid color-mix(in srgb, var(--card-line) 60%, transparent); border-radius: 16px; box-shadow: var(--shadow); }
 .nl-task-box h2 { margin: 0 0 12px; font-size: 1rem; }
@@ -2682,6 +2705,10 @@
 .mina-quick-desc { font-size: 0.76rem; color: var(--ink-soft); line-height: 1.4; }
 @media (max-width: 820px) { .mina-quick-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 420px) { .mina-quick-grid { grid-template-columns: 1fr; } }
+
+/* 하나의 주요 업무(고객 문의/리뷰 관리/예약 확인/후속 고객 관리) 2x2 그리드
+   -- 좁은 화면에서는 1열로 쌓이도록 함(2026-09 하나 화면 고객관리 재정의). */
+@media (max-width: 820px) { #hana-duty-cards > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; } }
 
 .mvp-schedule-card { padding: 24px 24px 22px; }
 .mvp-schedule-card h2 { font-size: 1.15rem; }
@@ -3533,7 +3560,12 @@
 
   <section id="courses-teaser" class="alt">
     <div class="wrap">
-      <div class="section-head section-head--feature reveal">
+      <!-- 2026-09 fix(핵심 메시지 정리): 강의/교육은 핵심 서비스(AI 직원/반복업무/
+           전문가 연결)와 똑같은 대형 헤딩(.section-head--feature)을 쓰고 있어서
+           랜딩페이지에서 시각적 비중이 동일해 보였다. 페이지 자체는 그대로 두고,
+           보조 영역이라는 인상을 주도록 헤딩 크기만 기본(.section-head)으로
+           낮춘다(다른 곳의 .section-head--feature 정의/사용은 그대로 둠). -->
+      <div class="section-head reveal">
         <span class="eyebrow">강의</span>
         <h2>AI가 아직 낯설다면,<br>직접 배워서 익혀보세요.</h2>
         <p>사장메이트를 처음 쓰는 사장님을 위한 실무 강의도 준비했어요. 현장에서 직접 실습하거나, 원하는 시간에 온라인으로 들을 수 있어요.</p>
@@ -4625,6 +4657,8 @@
 
     <div id="mina-weekly-status"><!-- rendered by SM_renderMinaHome(): 매주 자동 준비 중이면 상태 배너 --></div>
 
+    <div id="mina-teo-handoff"><!-- rendered by SM_renderMinaHome(): 테오가 업무를 전달했으면 배너로 표시(2026-09 신규) --></div>
+
     <!-- PART 4(미나 버전): "골라서 맡기기"가 아니라 말로 시키는 흐름을
          홈의 첫 상호작용으로 둔다 -- 수진의 nl-task-box와 동일한 패턴을
          재사용해, 서비스 전체가 "말하면 AI 직원이 알아서 처리한다"는
@@ -4731,10 +4765,18 @@
 
 <!--
   ============================================================
-  SECTION: 테오 · AI 매출・경영분석 직원 (2026-09 신규 MVP)
+  SECTION: 테오 · AI 매출・경영관리 직원 (2026-09 신규 MVP / 2026-09 역할 강화)
   수진의 "홈 브리핑 -> 자동화 워크플로우 -> 업무보고" 구조를 그대로
   재사용하되, 도메인은 완전히 분리된 매출 데이터(SW.loadSales 등)를 쓴다.
-  기존 수진/미나 플로우는 전혀 건드리지 않는다.
+  2026-09 역할 강화: 기존 브리핑(어제 매출/전주 비교/이상 시간대)은 그대로
+  유지하고, "확인 → 비교 → 이상 발견"에서 끝나던 흐름을 "원인 분석 →
+  조치 제안 → 다른 AI 직원에게 업무 전달 → 실행 후 재확인"까지 이어지는
+  경영관리 흐름으로 확장한다. 원인 분석/매장 비교는 샘플 데이터 기반
+  흐름만 보여주는 수준으로 유지하고(과도한 엔진 구현 없음), 확정적
+  인과관계 대신 "영향이 큰 것으로 보여요" 식의 완곡한 표현을 쓴다.
+  테오→미나 업무 전달은 SW.createTeoHandoff()/getTeoHandoff() 핸드오프
+  플래그 하나로 구현하며, 미나 화면(#view-mina-mvp)의 기존 흐름은 건드리지
+  않고 상단에 배너 하나만 추가로 읽어 보여준다.
   ============================================================
 -->
 <div id="view-teo-mvp" class="persona-page mvp-page" hidden>
@@ -4750,7 +4792,15 @@
       </div>
     </div>
 
-    <div id="teo-brief-card"><!-- rendered by SM_renderTeoHome(): 테오의 오늘 브리핑 --></div>
+    <div id="teo-brief-card"><!-- rendered by SM_renderTeoHome(): 테오의 오늘 브리핑(기존 유지) --></div>
+
+    <div id="teo-cause-card"><!-- rendered by SM_renderTeoHome(): 테오가 원인을 더 확인했어요 --></div>
+
+    <div id="teo-branch-compare"><!-- rendered by SM_renderTeoHome(): 매장별 비교(샘플 데이터) --></div>
+
+    <div id="teo-next-actions"><!-- rendered by SM_renderTeoHome(): 테오가 제안하는 다음 업무 + 미나에게 업무 전달 --></div>
+
+    <div id="teo-handoff-timeline"><!-- rendered by SM_renderTeoHome(): 발견 → 실행 → 재확인 협업 기록 --></div>
 
     <div class="mvp-brief-card reveal-scale" style="margin-top:20px;">
       <span class="eyebrow" style="display:block;margin-bottom:6px;">반복업무 자동화</span>
@@ -4764,7 +4814,7 @@
       </div>
     </div>
 
-    <div id="teo-records-list"><!-- rendered by SM_renderTeoHome(): 테오의 업무보고 목록 --></div>
+    <div id="teo-records-list"><!-- rendered by SM_renderTeoHome(): 테오의 업무보고 목록(기존 유지) --></div>
 
     <div class="mvp-quicklinks reveal-scale" style="margin-top:24px;">
       <a class="mvp-quicklink" href="#sujin-mvp">
@@ -4788,8 +4838,17 @@
 
 <!--
   ============================================================
-  SECTION: 하나 · AI 고객관리 직원 (2026-09 신규 MVP)
-  같은 구조를 리뷰/문의 도메인(SW.loadReviews 등)으로 재사용한다.
+  SECTION: 하나 · AI 예약・고객관리 직원 (2026-09 신규 MVP / 2026-09 전면 재정의)
+  2026-09 전면 재정의: 하나를 '예약・고객관리 AI 직원'으로 명확히 하고,
+  화면 진입 시 "오늘 어떤 고객이 언제 예약했고 무엇을 챙겨야 하는지"가
+  바로 보이도록 재구성했다. 5개 축(예약 관리/고객 문의/후속 고객 관리/
+  리뷰 관리/고객 업무보고)이 명확히 구분되며, 예약・문의 데이터를 보고
+  "사장님이 놓칠 고객"을 하나가 먼저 찾아 보여주는 것이 핵심이다(단순
+  예약 캘린더가 아님). 기존에 실제로 구현돼 있던 리뷰 답변 기능
+  (SW.loadReviews/runReviewsTask 등)은 삭제하지 않고 '리뷰 관리'를
+  보조 기능(하위 카드)으로 내려 그대로 유지한다. 네이버예약・카카오 등
+  실제 API 연동은 아직 없으므로 절대 "연동됨"이라 표시하지 않고 사진관
+  샘플 데이터 기반 데모임을 유지한다.
   ============================================================
 -->
 <div id="view-hana-mvp" class="persona-page mvp-page" hidden>
@@ -4799,27 +4858,35 @@
       <div class="mvp-header-top">
         <img class="mvp-header-photo" data-emp="hana" src="" alt="하나">
         <div>
-          <h1>새 리뷰, 하나가 먼저 확인했어요.</h1>
-          <p>새로 들어온 리뷰・문의를 확인하고, 답변이 필요한 것만 골라 초안까지 준비합니다.</p>
+          <h1 id="hana-main-heading">오늘 예약 7건, 하나가 미리 정리했어요.</h1>
+          <p>오늘 방문 고객부터 미응답 문의, 재방문 고객까지 하나가 먼저 챙겨요.</p>
         </div>
       </div>
     </div>
 
-    <div id="hana-brief-card"><!-- rendered by SM_renderHanaHome(): 하나의 오늘 브리핑 --></div>
+    <div id="hana-reservation-brief"><!-- rendered by SM_renderHanaHome(): ① 예약 관리 -- 오늘 예약 브리핑 --></div>
+
+    <div id="hana-reservation-findings"><!-- rendered by SM_renderHanaHome(): 예약 관리 -- 하나가 먼저 챙긴 것 --></div>
+
+    <div id="hana-inquiries-card"><!-- rendered by SM_renderHanaHome(): ② 고객 문의 -- 새 고객 문의 --></div>
+
+    <div id="hana-followups-card"><!-- rendered by SM_renderHanaHome(): ③ 후속 고객 관리 -- 놓치고 있는 고객 --></div>
 
     <div class="mvp-brief-card reveal-scale" style="margin-top:20px;">
       <span class="eyebrow" style="display:block;margin-bottom:6px;">반복업무 자동화</span>
       <h2 style="margin:0 0 14px;">하나의 반복업무</h2>
       <div class="automation-flow">
-        <div class="automation-step"><span class="automation-step-tag">WHEN</span><p>매일 오전 09:00</p></div>
-        <div class="automation-step"><span class="automation-step-tag">CHECK</span><p>새로 들어온 리뷰・문의를 확인해요</p></div>
-        <div class="automation-step"><span class="automation-step-tag">IF</span><p>낮은 평점이나 답변이 필요한 내용이 있다면</p></div>
-        <div class="automation-step"><span class="automation-step-tag">DO</span><p>하나가 우선순위를 분류하고 답변 초안을 준비해요</p></div>
-        <div class="automation-step"><span class="automation-step-tag">REPORT</span><p>실행기록에 저장하고, 브리핑으로 사장님께 보고해요</p></div>
+        <div class="automation-step"><span class="automation-step-tag">WHEN</span><p>매일 영업 시작 전</p></div>
+        <div class="automation-step"><span class="automation-step-tag">CHECK</span><p>오늘・내일 예약, 신규 문의, 미응답 고객을 확인해요</p></div>
+        <div class="automation-step"><span class="automation-step-tag">IF</span><p>확인이나 후속관리가 필요한 고객이 있다면</p></div>
+        <div class="automation-step"><span class="automation-step-tag">DO</span><p>우선순위를 정하고 필요한 안내・답변 초안을 준비해요</p></div>
+        <div class="automation-step"><span class="automation-step-tag">REPORT</span><p>오늘 챙겨야 할 고객 업무를 사장님에게 보고해요</p></div>
       </div>
     </div>
 
-    <div id="hana-records-list"><!-- rendered by SM_renderHanaHome(): 하나의 업무보고 목록 --></div>
+    <div id="hana-review-subcard"><!-- rendered by SM_renderHanaHome(): ④ 리뷰 관리(보조 기능, 기존 기능 그대로 유지) --></div>
+
+    <div id="hana-records-list"><!-- rendered by SM_renderHanaHome(): ⑤ 하나의 고객 업무보고 --></div>
 
     <div class="mvp-quicklinks reveal-scale" style="margin-top:24px;">
       <a class="mvp-quicklink" href="#sujin-mvp">
@@ -8415,7 +8482,7 @@ try {
   ];
 
   var publishLog = [
-    { time: addDays(now, -1), name: '주말 브런치 안내', channel: 'threads', result: 'published' },
+    { time: addDays(now, -1), name: '주말 스냅사진 이벤트 안내', channel: 'threads', result: 'published' },
     { time: addDays(now, -1), name: '주말 스냅사진 이벤트 안내', channel: 'instagram', result: 'published' },
     { time: addDays(now, -2), name: '휴무 안내', channel: 'naver-blog', result: 'failed' },
   ];
@@ -9140,6 +9207,7 @@ try {
   var SALES_RECORD_KEY = 'sm_teo_sales_records_v1';
   var REVIEWS_KEY = 'sm_hana_reviews_v1';
   var REVIEW_RECORD_KEY = 'sm_hana_review_records_v1';
+  var TEO_HANDOFF_KEY = 'sm_teo_mina_handoff_v1';
 
   function escapeHtml(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -9507,6 +9575,20 @@ try {
     return record;
   }
 
+  // ---- 테오 -> 미나 업무 전달 (2026-09 신규) ----
+  // 테오가 "오후 매출 감소"의 원인을 마케팅(오후 예약 저조)으로 보고
+  // 미나에게 프로모션 콘텐츠 준비를 맡길 때 쓰는 아주 단순한 핸드오프
+  // 플래그다. 실제 백엔드/큐 없이 localStorage 한 칸으로 "테오가 미나에게
+  // 방금 업무를 넘겼다"는 상태만 두 화면이 공유한다 (미나 쪽 화면은
+  // #view-mina-mvp 렌더링에서 이 값을 읽기만 하고, 미나의 기존 흐름은
+  // 전혀 바꾸지 않는다).
+  function getTeoHandoff() { return readJSON(TEO_HANDOFF_KEY); }
+  function createTeoHandoff(topic) {
+    var rec = { topic: topic, createdAt: new Date().toISOString(), from: '테오', to: '미나' };
+    writeJSON(TEO_HANDOFF_KEY, rec);
+    return rec;
+  }
+
   // 데모 데이터 초기화: 직원/반복업무/실행기록을 전부 최초 시드 상태로
   // 되돌린다 (발표 중 만든 실행 기록도 함께 제거됨). 발표 직전 리허설 후
   // 원상복구할 때 쓰는 용도라 화면에는 눈에 잘 띄지 않게 배치한다.
@@ -9518,6 +9600,7 @@ try {
     writeJSON(SALES_RECORD_KEY, seedSalesRecords());
     writeJSON(REVIEWS_KEY, seedReviews());
     writeJSON(REVIEW_RECORD_KEY, seedReviewRecords());
+    writeJSON(TEO_HANDOFF_KEY, null);
   }
 
   window.SM_WORKSPACE = {
@@ -9534,7 +9617,8 @@ try {
     PERIOD_LABEL_KO: PERIOD_LABEL_KO,
     loadReviews: loadReviews, saveReviews: saveReviews, computeReviewsInsight: computeReviewsInsight,
     loadReviewRecords: loadReviewRecords, saveReviewRecords: saveReviewRecords, runReviewsTask: runReviewsTask,
-    draftReviewReply: draftReviewReply
+    draftReviewReply: draftReviewReply,
+    getTeoHandoff: getTeoHandoff, createTeoHandoff: createTeoHandoff
   };
 })();
 </script>
@@ -10413,7 +10497,25 @@ try {
   // 매주 자동 준비가 켜져 있으면 그 상태를 홈에 계속 보여준다 -- 수진의
   // 반복업무 카드와 같은 "정해진 시간에 자동 수행" 경험을 미나에서도
   // 그대로 재현한다 (새로고침/재방문에도 localStorage로 남아있음).
+  // 2026-09 신규: 테오가 매출 원인 분석 후 "미나에게 오후 프로모션
+  // 맡기기"를 누르면 SW.createTeoHandoff()가 남긴 요청을 여기서 읽어
+  // 배너로 보여준다. 미나의 기존 흐름(블로그/SNS 등)은 전혀 바꾸지 않고
+  // 화면 맨 위에 "누가 왜 이 업무를 맡겼는지"만 추가로 알려준다.
+  var handoffEl = document.getElementById('mina-teo-handoff');
+  function renderTeoHandoff() {
+    if (!handoffEl || !SW || !SW.getTeoHandoff) return;
+    var h = SW.getTeoHandoff();
+    if (!h) { handoffEl.innerHTML = ''; return; }
+    handoffEl.innerHTML =
+      '<div class="mvp-brief-card" style="border-color:var(--tag-biz);margin-bottom:16px;">' +
+        '<span class="mvp-status-pill is-soon">' + esc(h.from) + ' 요청</span>' +
+        '<h2 style="margin:10px 0 4px;font-size:1.02rem;">' + esc(h.topic) + '</h2>' +
+        '<p style="margin:0;font-size:0.86rem;color:var(--ink-soft);">테오가 발견한 오후 매출 감소를 바탕으로 미나에게 홍보 업무를 전달했어요.</p>' +
+      '</div>';
+  }
+
   window.SM_renderMinaHome = function () {
+    renderTeoHandoff();
     if (!statusEl) return;
     var t = window.SM_loadMinaWeeklyTask ? window.SM_loadMinaWeeklyTask() : null;
     if (!t || !t.active) { statusEl.innerHTML = ''; return; }
@@ -10430,17 +10532,32 @@ try {
 
 <script>
 /* =====================================================================
- * 테오 (#view-teo-mvp) -- 매출・경영분석 실제 MVP (2026-09 신규).
+ * 테오 (#view-teo-mvp) -- 매출・경영관리 실제 MVP
+ * (2026-09 신규 -> 2026-09 역할 강화: 경영관리 AI 직원)
  * 수진의 "홈 브리핑 -> 자동화 워크플로우 -> 업무보고" 구조를 그대로
  * 따르되, 데이터는 완전히 분리된 SW.loadSales/computeSalesInsight를 쓴다.
  * 어제 매출을 지난주 같은 요일과 비교해 실제로 계산한 결과만 보여준다
- * (하드코딩된 "12% 감소" 같은 문구 없음).
+ * (하드코딩된 "12% 감소" 같은 문구 없음) -- renderBrief/renderRecords는
+ * 기존 그대로 유지한다.
+ * 2026-09 역할 강화: "확인 → 비교 → 이상 발견"에서 끝나던 흐름을 "원인
+ * 분석(renderCauseCard) → 매장 비교(renderBranchCompare) → 조치 제안+
+ * 업무 전달(renderNextActions) → 실행 후 재확인(renderHandoffTimeline)"
+ * 까지 확장한다. 원인 분석/매장 비교는 실제 상품별/매장별 매출 엔진이
+ * 아직 없으므로 사진관 샘플 데이터로만 구성하고(과도한 구현 지양),
+ * "영향이 큰 것으로 보여요"처럼 완곡한 표현만 쓴다(확정적 인과관계 금지).
+ * 테오->미나 업무 전달은 SW.createTeoHandoff()로 남기는 핸드오프 플래그
+ * 하나로 구현하고, 미나 화면(#view-mina-mvp)은 이 값을 읽어 배너만 하나
+ * 추가로 보여준다(미나의 기존 흐름은 전혀 바꾸지 않음).
  * ===================================================================== */
 (function () {
   var SW = window.SM_WORKSPACE;
   var briefEl = document.getElementById('teo-brief-card');
+  var causeEl = document.getElementById('teo-cause-card');
+  var branchEl = document.getElementById('teo-branch-compare');
+  var nextActionsEl = document.getElementById('teo-next-actions');
+  var timelineEl = document.getElementById('teo-handoff-timeline');
   var recordsEl = document.getElementById('teo-records-list');
-  if (!briefEl || !recordsEl || !SW) return;
+  if (!briefEl || !causeEl || !branchEl || !nextActionsEl || !timelineEl || !recordsEl || !SW) return;
   var esc = SW.escapeHtml;
 
   function won(n) { return '₩' + Math.round(n).toLocaleString('ko-KR'); }
@@ -10523,22 +10640,182 @@ try {
       }).join('');
   }
 
-  window.SM_renderTeoHome = function () { renderBrief(); renderRecords(); };
+  // ---- 2026-09 역할 강화: 원인 분석 / 매장 비교 샘플 데이터 ----
+  // 실제 상품별・매장별 매출 엔진은 아직 없어 사용자 흐름만 보여주는
+  // 수준의 샘플 데이터로 구성한다(요청사항의 "과도하게 구현하지 말 것"
+  // 원칙). 오후 예약 감소율은 위 브리핑의 오후 매출 이상치(-42%)와 같은
+  // 이야기의 다른 단면이 되도록 비슷한 폭(-44%)으로 맞췄다.
+  function causeAnalysisData() {
+    return {
+      afternoonReservations: { lastWeek: 9, yesterday: 5 },
+      serviceRevenue: [
+        { name: '여권사진', pctChange: -8 },
+        { name: '증명사진', pctChange: -36 },
+        { name: '가족사진', pctChange: -51 }
+      ]
+    };
+  }
+
+  function branchCompareData() {
+    return {
+      todayWorst: { branch: '강남점', pctChange: -15 },
+      weekBestGrowth: { branch: '잠실점', pctChange: 6 }
+    };
+  }
+
+  function nextActionsData() {
+    return ['이번 주 오후 예약률 확인', '평일 오후 프로모션 진행', '7일 후 같은 시간대 매출 다시 비교'];
+  }
+
+  // "테오가 원인을 더 확인했어요" -- 오후 매출이 떨어졌다는 사실 자체로
+  // 끝내지 않고, 오후 예약 수/상품별 매출까지 더 뜯어본 것처럼 보여준다.
+  // 인과관계를 단정하지 않고 "영향이 큰 것으로 보여요" 식으로만 표현한다.
+  function renderCauseCard() {
+    var data = causeAnalysisData();
+    var r = data.afternoonReservations;
+    var reservationPct = Math.round(((r.yesterday - r.lastWeek) / r.lastWeek) * 100);
+    causeEl.innerHTML =
+      '<div class="mvp-brief-card reveal-scale" style="margin-top:16px;">' +
+        '<h2 style="margin:0 0 10px;font-size:1.05rem;">테오가 원인을 더 확인했어요</h2>' +
+        '<ul class="hana-finding-list">' +
+          '<li><b>오후 예약</b> — 지난주 ' + r.lastWeek + '건 → 어제 ' + r.yesterday + '건 (' + pctText(reservationPct) + ')</li>' +
+          data.serviceRevenue.map(function (s) {
+            return '<li><b>' + esc(s.name) + ' 매출</b> — 지난주 대비 ' + pctText(s.pctChange) + '</li>';
+          }).join('') +
+        '</ul>' +
+        '<p style="margin:14px 0 0;font-size:0.88rem;line-height:1.6;padding:12px 14px;background:var(--paper-deep);border-radius:10px;">' +
+          '🔎 오후 예약 감소와 가족사진 매출 감소가 전체 매출 하락에 영향이 큰 것으로 보여요. 정확한 원인은 추가 확인이 필요해요.' +
+        '</p>' +
+      '</div>';
+  }
+
+  // "매장별 비교" -- 여러 지점이 있을 때 테오가 다룰 수 있는 기능이라는
+  // 것만 가볍게 보여준다(샘플 데이터, 실제 다지점 엔진 아님).
+  function renderBranchCompare() {
+    var data = branchCompareData();
+    branchEl.innerHTML =
+      '<div class="mvp-brief-card reveal-scale" style="margin-top:16px;">' +
+        '<span class="eyebrow" style="display:block;margin-bottom:6px;">매장별 비교 · 샘플 데이터</span>' +
+        '<h2 style="margin:0 0 10px;font-size:1.05rem;">지점이 여러 곳이라면 이렇게도 비교해드려요</h2>' +
+        '<ul class="hana-finding-list">' +
+          '<li>오늘 가장 매출이 떨어진 매장 — <b>' + esc(data.todayWorst.branch) + '</b> (' + pctText(data.todayWorst.pctChange) + ')</li>' +
+          '<li>전주 대비 가장 성장한 매장 — <b>' + esc(data.weekBestGrowth.branch) + '</b> (' + pctText(data.weekBestGrowth.pctChange) + ')</li>' +
+        '</ul>' +
+        '<p style="margin:10px 0 0;font-size:0.8rem;color:var(--ink-soft);">(데모 화면) 잠실점・강남점 샘플 데이터 기준 흐름이에요 · 매장이 늘어나면 그대로 확장돼요.</p>' +
+      '</div>';
+  }
+
+  // "테오가 제안하는 다음 업무" + AI 직원 간 업무 전달. 오후 매출 하락의
+  // 조치안(② 프로모션)을 실제로 미나에게 넘기는 버튼이 핵심 -- 실제
+  // 백엔드 큐 없이 SW.createTeoHandoff()로 남기는 상태값 하나로 데모한다.
+  function renderNextActions() {
+    var actions = nextActionsData();
+    var numerals = ['①', '②', '③'];
+    var handoff = SW.getTeoHandoff && SW.getTeoHandoff();
+    nextActionsEl.innerHTML =
+      '<div class="mvp-brief-card reveal-scale" style="margin-top:16px;">' +
+        '<h2 style="margin:0 0 10px;font-size:1.05rem;">테오가 제안하는 다음 업무</h2>' +
+        '<ul class="hana-followup-list">' +
+          actions.map(function (a, i) { return '<li>' + (numerals[i] || (i + 1) + '.') + ' ' + esc(a) + '</li>'; }).join('') +
+        '</ul>' +
+        '<div class="mvp-schedule-cta">' +
+          '<button type="button" class="btn btn-primary" id="teo-handoff-btn"' + (handoff ? ' hidden' : '') + '>미나에게 오후 프로모션 맡기기 →</button>' +
+        '</div>' +
+        '<div id="teo-handoff-confirm">' + (handoff ? handoffConfirmHtml() : '') + '</div>' +
+      '</div>';
+
+    var btn = document.getElementById('teo-handoff-btn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      var confirmEl = document.getElementById('teo-handoff-confirm');
+      confirmEl.innerHTML = '<div class="staff-flow-processing" style="padding:16px 0;"><span class="staff-flow-spinner" aria-hidden="true"></span><p>테오가 미나에게 업무를 전달하고 있어요...</p></div>';
+      setTimeout(function () {
+        SW.createTeoHandoff('테오 요청 | 평일 오후 예약 프로모션 콘텐츠 준비');
+        btn.hidden = true;
+        confirmEl.innerHTML = handoffConfirmHtml();
+        renderHandoffTimeline();
+      }, 900);
+    });
+  }
+
+  function handoffConfirmHtml() {
+    return '<p style="margin:14px 0 0;font-size:0.88rem;color:var(--status-done);font-weight:700;">✓ 테오가 발견한 오후 매출 감소를 바탕으로 미나에게 홍보 업무를 전달했어요.</p>' +
+      '<p style="margin:6px 0 0;font-size:0.82rem;color:var(--ink-soft);">미나 업무공간에 "평일 오후 예약 프로모션 콘텐츠 준비" 업무가 생성됐어요.</p>';
+  }
+
+  // "발견 → 실행 → 재확인" 협업 기록. 1번째 항목(발견)은 항상 보이고,
+  // 미나에게 업무를 전달한 뒤에만 2/3번째 항목(실행/재확인 예정)이
+  // 나타난다 -- 테오 혼자 끝내는 게 아니라 다른 AI 직원에게 넘기고
+  // 이후 결과까지 다시 확인한다는 흐름을 그대로 재현한다.
+  function fmtMD(d) {
+    var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+    return pad(d.getMonth() + 1) + '/' + pad(d.getDate());
+  }
+  function renderHandoffTimeline() {
+    var handoff = SW.getTeoHandoff && SW.getTeoHandoff();
+    var today = new Date();
+    var items = [
+      { date: fmtMD(today), who: '테오', text: '오후 매출 감소 발견', done: true }
+    ];
+    if (handoff) {
+      var createdAt = new Date(handoff.createdAt);
+      var followUp = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000);
+      items.push({ date: fmtMD(createdAt), who: '미나', text: '오후 프로모션 콘텐츠 준비', done: true });
+      items.push({ date: fmtMD(followUp), who: '테오', text: '프로모션 이후 오후 매출 재분석 예정', done: false });
+    }
+    timelineEl.innerHTML =
+      '<div class="mvp-brief-card reveal-scale" style="margin-top:16px;">' +
+        '<span class="eyebrow" style="display:block;margin-bottom:6px;">발견 → 실행 → 재확인</span>' +
+        '<h2 style="margin:0 0 10px;font-size:1.05rem;">테오의 협업 기록</h2>' +
+        '<ul class="hana-finding-list">' +
+          items.map(function (it) {
+            return '<li>' + esc(it.date) + ' <b>' + esc(it.who) + '</b> — ' + esc(it.text) + (it.done ? '' : ' <span style="color:var(--ink-soft);">(예정)</span>') + '</li>';
+          }).join('') +
+        '</ul>' +
+      '</div>';
+  }
+
+  window.SM_renderTeoHome = function () {
+    renderBrief();
+    renderCauseCard();
+    renderBranchCompare();
+    renderNextActions();
+    renderHandoffTimeline();
+    renderRecords();
+  };
 })();
 </script>
 
 <script>
 /* =====================================================================
- * 하나 (#view-hana-mvp) -- 고객관리 실제 MVP (2026-09 신규).
- * 같은 구조를 리뷰/문의 도메인으로 재사용한다. 리뷰 데이터 자체는 절대
- * 바꾸지 않고(수진의 runTask와 동일한 원칙), 그 순간의 데이터에서 답변이
- * 필요한 리뷰를 찾아 초안까지 준비해 실행기록에 저장한다.
+ * 하나 (#view-hana-mvp) -- 예약・고객관리 실제 MVP
+ * (2026-09 신규 → 2026-09 고객관리 확장 → 2026-09 예약・고객관리 전면 재정의)
+ * 2026-09 전면 재정의: 하나를 '예약・고객관리 AI 직원'으로 명확히 하고,
+ * 화면 최상단을 "오늘 예약 브리핑"으로 바꿔 사장님이 들어오자마자 오늘
+ * 몇 시에 누가 오는지 바로 보이게 한다. 단순 예약 목록에 그치지 않도록
+ * 바로 아래에 "하나가 먼저 챙긴 것"(예약 중 확인/조치가 필요한 건을 AI가
+ * 골라낸 것)을 추가한다. 새 고객 문의・놓치고 있는 고객(후속관리)도 같은
+ * 원칙 -- 목록만 보여주지 않고 하나가 분류/초안까지 준비한 상태를 보여준다.
+ * 리뷰 데이터/답변 초안 로직(SW.computeReviewsInsight, SW.runReviewsTask,
+ * SW.loadReviewRecords)은 하나도 바꾸지 않고 '리뷰 관리'를 보조 기능
+ * (하위 카드, 기본 접힘)으로 내려 그대로 유지한다 -- 실행기록도 기존
+ * 리뷰 실행기록 그대로. 예약/문의/후속관리 3개 영역은 아직 별도 실행기록
+ * 엔진이 없는 순수 데모 데이터라 localStorage에 저장하지 않는다(새로고침
+ * 해도 항상 같은 데모 상태를 보여줘야 하므로 오히려 이 편이 안전하다).
+ * 네이버예약・카카오 등 실제 API 연동은 없으므로 "연동됨" 표시는 하지
+ * 않고 사진관 샘플 데이터 기반 데모임을 문구로 유지한다.
  * ===================================================================== */
 (function () {
   var SW = window.SM_WORKSPACE;
-  var briefEl = document.getElementById('hana-brief-card');
+  var headingEl = document.getElementById('hana-main-heading');
+  var reservBriefEl = document.getElementById('hana-reservation-brief');
+  var findingsEl = document.getElementById('hana-reservation-findings');
+  var inquiriesEl = document.getElementById('hana-inquiries-card');
+  var followUpsEl = document.getElementById('hana-followups-card');
+  var reviewEl = document.getElementById('hana-review-subcard');
   var recordsEl = document.getElementById('hana-records-list');
-  if (!briefEl || !recordsEl || !SW) return;
+  if (!headingEl || !reservBriefEl || !findingsEl || !inquiriesEl || !followUpsEl || !reviewEl || !recordsEl || !SW) return;
   var esc = SW.escapeHtml;
 
   function fmtDateTime(iso) {
@@ -10549,31 +10826,222 @@ try {
     return d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + ' ' + ampm + ' ' + pad(h12) + ':' + pad(d.getMinutes());
   }
 
-  function preparedHtml(hasUrgent) {
-    var items = hasUrgent
-      ? ['새 리뷰 확인', '답변 필요 리뷰 분류', '답변 초안 작성']
-      : ['새 리뷰 확인'];
-    return '<p style="margin:14px 0 6px;font-weight:700;font-size:0.86rem;color:var(--ink-soft);">하나가 준비한 것</p>' +
-      '<ul class="briefing-checklist">' + items.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+  // ---- 오늘 예약 데이터 (사진관 데모 기준, 시간순) ----
+  // people(방문 인원)의 합이 "오늘 예약 N건 · 총 M명"의 M이 된다.
+  // status: 'confirmed'(예약확정, 중립색) | 'attention'(확인/요청사항/미확정,
+  // amber 배지) -- attention 건은 아래 하나가 먼저 챙긴 것에도 자동 반영된다.
+  function reservationData() {
+    return [
+      { time: '10:00', customer: '김서연', service: '여권사진', branch: '잠실점', people: 1, status: 'confirmed', statusLabel: '예약확정' },
+      { time: '11:00', customer: '정하윤', service: '반명함사진', branch: '잠실점', people: 1, status: 'confirmed', statusLabel: '예약확정' },
+      { time: '11:30', customer: '이도윤', service: '증명사진', branch: '잠실점', people: 1, status: 'confirmed', statusLabel: '예약확정' },
+      { time: '13:00', customer: '한소율', service: '프로필사진', branch: '강남점', people: 1, status: 'confirmed', statusLabel: '예약확정' },
+      { time: '14:00', customer: '박준호 외 2명', service: '가족사진', branch: '강남점', people: 3, status: 'attention', statusLabel: '촬영 전 확인 필요', finding: '촬영 인원 3명, 의상 관련 문의 미답변' },
+      { time: '16:30', customer: '최민준', service: '취업사진', branch: '잠실점', people: 1, status: 'attention', statusLabel: '요청사항 있음', finding: '고객 요청사항 확인 필요' },
+      { time: '17:30', customer: '오지훈', service: '스냅사진', branch: '잠실점', people: 1, status: 'confirmed', statusLabel: '예약확정' }
+    ];
   }
 
-  function renderBrief() {
-    var insight = SW.computeReviewsInsight();
-    var hasUrgent = insight.needsResponse.length > 0;
-    var lede = hasUrgent
-      ? ('하나가 새 리뷰 ' + insight.total + '건을 확인했어요. 답변이 필요한 리뷰 ' + insight.needsResponse.length + '건을 찾았습니다.')
-      : ('하나가 새 리뷰 ' + insight.total + '건을 확인했어요. 답변이 필요한 리뷰는 없어요.');
-    briefEl.innerHTML =
+  // ---- 새 고객 문의 (채널별 분류 + 카테고리 분류 + 답변 초안) ----
+  function inquiryData() {
+    return [
+      { channel: '네이버 예약 문의', customer: '정유진', category: '예약 가능 여부', text: '이번 주말 예약 가능한 시간이 있을까요?', draft: '정유진님, 이번 주말 오후 시간대 예약이 가능해요. 원하시는 시간을 알려주시면 바로 잡아드릴게요.' },
+      { channel: '네이버 예약 문의', customer: '한소율', category: '가격 문의', text: '가족사진 패키지 가격이 궁금해요.', draft: '한소율님, 가족사진 패키지 요금표를 안내드릴게요. 인원수에 따라 구성이 달라져요.' },
+      { channel: '카카오 문의', customer: '오지훈', category: '촬영 준비사항', text: '증명사진 찍을 때 옷은 어떻게 준비하면 될까요?', draft: '오지훈님, 밝은 계열의 단색 상의를 추천드려요. 편하게 오시면 매장에서도 도와드릴게요.' },
+      { channel: '전화 후 미예약', customer: '김도윤', category: '기타', text: '전화로 문의만 하시고 아직 예약은 하지 않으셨어요.', draft: '김도윤님, 편하실 때 예약 도와드릴까요? 문의주셨던 내용 다시 안내드릴게요.' }
+    ];
+  }
+
+  // ---- 놓치고 있는 고객 (후속 고객 관리) -- 하나의 핵심 차별점 ----
+  function followUpData() {
+    return [
+      { customer: '한소율', reason: '어제 가격 문의 후 예약하지 않았어요.', draft: '한소율님, 어제 문의해주신 가족사진 패키지 자리가 아직 넉넉해요. 편하신 시간에 예약 도와드릴까요?' },
+      { customer: '오지훈', reason: '예약 문의 후 답변이 없었어요.', draft: '오지훈님, 문의주신 촬영 예약 안내가 늦었어요. 지금도 예약 가능하니 편하게 말씀해주세요.' },
+      { customer: '김서연', reason: '지난 촬영 후 재방문 시기가 됐어요.', draft: '김서연님, 지난 촬영 이후 시간이 꽤 지났어요. 다음 방문에 사용하실 수 있는 안내를 준비했어요.' }
+    ];
+  }
+
+  // 예약 중 'attention' 건 + 내일 미확정 건 하나를 합쳐 "하나가 먼저
+  // 챙긴 것"을 만든다 -- 예약 목록을 다시 훑어보지 않아도 되게, AI가 이미
+  // 골라낸 형태로 보여주는 것이 핵심.
+  function reservationFindings(reservations) {
+    var items = reservations.filter(function (r) { return r.status === 'attention'; })
+      .map(function (r) { return { time: r.time, label: r.service, text: r.finding }; });
+    items.push({ time: '내일 10:00', label: '여권사진', text: '예약 미확정' });
+    return items;
+  }
+
+  function statusBadgeHtml(r) {
+    var cls = r.status === 'attention' ? 'is-attention' : 'is-confirmed';
+    return '<span class="hana-reserv-status ' + cls + '">' + esc(r.statusLabel) + '</span>';
+  }
+
+  function reservationRowHtml(r) {
+    return '<li class="hana-reserv-row">' +
+      '<span class="hana-reserv-time">' + esc(r.time) + '</span>' +
+      '<span class="hana-reserv-info"><b>' + esc(r.customer) + '</b> · ' + esc(r.service) + '<br>' +
+        '<span class="hana-reserv-meta">' + esc(r.branch) + '</span></span>' +
+      statusBadgeHtml(r) +
+    '</li>';
+  }
+
+  // ① 예약 관리 -- 오늘 예약 브리핑. 기본은 앞 4건만 보여주고 '오늘 예약
+  // 전체보기'를 눌러야 7건 전체가 펼쳐진다(단순 캘린더 나열이 아니라
+  // 브리핑이라는 톤 유지).
+  function renderReservationBrief() {
+    var reservations = reservationData();
+    var totalPeople = reservations.reduce(function (sum, r) { return sum + r.people; }, 0);
+    headingEl.textContent = '오늘 예약 ' + reservations.length + '건, 하나가 미리 정리했어요.';
+
+    var previewCount = 4;
+    var previewHtml = reservations.slice(0, previewCount).map(reservationRowHtml).join('');
+    var fullHtml = reservations.map(reservationRowHtml).join('');
+
+    reservBriefEl.innerHTML =
       '<div class="mvp-brief-card mvp-schedule-card">' +
-        '<span class="briefing-detail-eyebrow">확인 → 분류 → 준비 → 보고</span>' +
-        '<h2 style="margin:8px 0 10px;">하나의 오늘 브리핑</h2>' +
-        '<p class="briefing-detail-lede">' + esc(lede) + '</p>' +
-        preparedHtml(hasUrgent) +
-        (hasUrgent
-          ? ('<div class="mvp-schedule-cta"><button type="button" class="btn btn-primary" id="hana-report-btn">답변 초안 확인하기 →</button></div><div id="hana-report-detail"></div>')
-          : '') +
+        '<span class="eyebrow" style="display:block;margin-bottom:6px;">예약 관리</span>' +
+        '<h2 style="margin:0 0 4px;">오늘 예약 브리핑</h2>' +
+        '<p class="briefing-detail-lede">오늘 예약 ' + reservations.length + '건 · 총 ' + totalPeople + '명</p>' +
+        '<ul class="hana-reserv-list" id="hana-reserv-list">' + previewHtml + '</ul>' +
+        '<div class="mvp-schedule-cta"><button type="button" class="btn btn-ghost" id="hana-reserv-toggle">오늘 예약 전체보기 →</button></div>' +
       '</div>';
 
+    var toggleBtn = document.getElementById('hana-reserv-toggle');
+    var listEl = document.getElementById('hana-reserv-list');
+    var expanded = false;
+    toggleBtn.addEventListener('click', function () {
+      expanded = !expanded;
+      listEl.innerHTML = expanded ? fullHtml : previewHtml;
+      toggleBtn.textContent = expanded ? '간단히 보기 ←' : '오늘 예약 전체보기 →';
+    });
+
+    return reservations;
+  }
+
+  // ② 예약 관리 -- 하나가 먼저 챙긴 것. 예약 목록에서 AI가 실제로 찾아낸
+  // '확인/조치가 필요한 건'만 모아 보여주고, 버튼을 누르면 각 건에 대해
+  // 하나가 준비한 조치까지 펼쳐 보여준다(단순 예약 프로그램과의 차별점).
+  function renderReservationFindings(reservations) {
+    var findings = reservationFindings(reservations);
+    findingsEl.innerHTML =
+      '<div class="mvp-brief-card reveal-scale" style="margin-top:16px;">' +
+        '<h2 style="margin:0 0 10px;font-size:1.05rem;">하나가 먼저 챙긴 것</h2>' +
+        '<p style="margin:0;font-weight:700;">⚠️ 하나가 확인할 것 ' + findings.length + '건을 찾았어요</p>' +
+        '<ul class="hana-finding-list">' + findings.map(function (f) {
+          return '<li><b>' + esc(f.time) + ' ' + esc(f.label) + '</b> — ' + esc(f.text) + '</li>';
+        }).join('') + '</ul>' +
+        '<div class="mvp-schedule-cta"><button type="button" class="btn btn-primary" id="hana-findings-btn">하나가 정리한 내용 보기 →</button></div>' +
+        '<div id="hana-findings-detail"></div>' +
+      '</div>';
+
+    var btn = document.getElementById('hana-findings-btn');
+    var detailEl = document.getElementById('hana-findings-detail');
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      detailEl.innerHTML = '<div class="staff-flow-processing" style="padding:16px 0;"><span class="staff-flow-spinner" aria-hidden="true"></span><p>하나가 우선순위를 정리하고 있어요...</p></div>';
+      setTimeout(function () {
+        detailEl.innerHTML = '<ul class="hana-finding-list" style="margin-top:10px;">' + findings.map(function (f, i) {
+          return '<li><b>우선순위 ' + (i + 1) + ' · ' + esc(f.time) + ' ' + esc(f.label) + '</b> — ' + esc(f.text) +
+            '<br><span style="color:var(--ink-soft);">→ 하나가 준비한 조치: 사장님 확인 전 임시 안내 문구를 준비해두었어요.</span></li>';
+        }).join('') + '</ul>' +
+        '<p style="margin:14px 0 0;font-size:0.82rem;color:var(--ink-soft);">(데모 화면) 실제 발송 없이 우선순위와 안내 문구까지만 준비해요 · 사장님이 직접 확인 후 진행해요.</p>';
+      }, 900);
+    });
+  }
+
+  // ③ 고객 문의 -- 채널별 건수 + 항목별 카테고리 분류 + 답변 초안까지.
+  function renderInquiries() {
+    var inquiries = inquiryData();
+    var byChannel = {};
+    inquiries.forEach(function (q) { byChannel[q.channel] = (byChannel[q.channel] || 0) + 1; });
+    var channelSummary = Object.keys(byChannel).map(function (ch) { return esc(ch) + ' ' + byChannel[ch] + '건'; }).join(' · ');
+
+    inquiriesEl.innerHTML =
+      '<div class="mvp-brief-card reveal-scale" style="margin-top:16px;">' +
+        '<span class="eyebrow" style="display:block;margin-bottom:6px;">고객 문의</span>' +
+        '<h2 style="margin:0 0 4px;">새 고객 문의</h2>' +
+        '<p class="briefing-detail-lede">새 문의 ' + inquiries.length + '건 · ' + channelSummary + '</p>' +
+        inquiries.map(function (q) {
+          return '<div class="hana-inquiry-item">' +
+            '<p style="margin:0;font-size:0.8rem;color:var(--ink-soft);">' + esc(q.channel) + '</p>' +
+            '<p style="margin:4px 0 0;font-weight:700;font-size:0.86rem;"><span class="hana-inquiry-tag">' + esc(q.category) + '</span>' + esc(q.customer) + '님</p>' +
+            '<p style="margin:4px 0 0;font-size:0.84rem;color:var(--ink-soft);">' + esc(q.text) + '</p>' +
+            '<p style="margin:8px 0 0;font-size:0.82rem;">하나가 준비한 답변 초안: “' + esc(q.draft) + '”</p>' +
+          '</div>';
+        }).join('') +
+      '</div>';
+  }
+
+  // ④ 후속 고객 관리 -- 놓치고 있는 고객. 하나의 핵심 차별점: 예약/문의
+  // 로그만 보여주는 게 아니라 "사장님이 놓칠 뻔한 고객"을 먼저 찾아낸다.
+  // '후속관리 시작하기' 클릭 -> 고객별 안내 메시지 초안을 만들어주는
+  // 데모 흐름(스피너 -> 초안 리스트)으로 연결한다.
+  function renderFollowUps() {
+    var followUps = followUpData();
+    followUpsEl.innerHTML =
+      '<div class="mvp-brief-card reveal-scale" style="margin-top:16px;">' +
+        '<span class="eyebrow" style="display:block;margin-bottom:6px;">후속 고객 관리</span>' +
+        '<h2 style="margin:0 0 4px;">놓치고 있는 고객</h2>' +
+        '<p class="briefing-detail-lede">하나가 다시 챙겨볼 고객 ' + followUps.length + '명을 찾았어요.</p>' +
+        '<ul class="hana-followup-list">' + followUps.map(function (f) {
+          return '<li>' + esc(f.customer) + '님 — ' + esc(f.reason) + '</li>';
+        }).join('') + '</ul>' +
+        '<div class="mvp-schedule-cta"><button type="button" class="btn btn-primary" id="hana-followup-btn">후속관리 시작하기 →</button></div>' +
+        '<div id="hana-followup-detail"></div>' +
+      '</div>';
+
+    var btn = document.getElementById('hana-followup-btn');
+    var detailEl = document.getElementById('hana-followup-detail');
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      detailEl.innerHTML = '<div class="staff-flow-processing" style="padding:16px 0;"><span class="staff-flow-spinner" aria-hidden="true"></span><p>하나가 고객별 안내 메시지를 준비하고 있어요...</p></div>';
+      setTimeout(function () {
+        detailEl.innerHTML = followUps.map(function (f) {
+          return '<div class="mvp-review-quote"><p style="margin:0 0 4px;font-weight:700;">' + esc(f.customer) + '님</p>' +
+            '<p style="margin:0;color:var(--ink-soft);font-size:0.86rem;">' + esc(f.reason) + '</p>' +
+            '<p style="margin:8px 0 0;font-size:0.9rem;line-height:1.6;">“' + esc(f.draft) + '”</p></div>';
+        }).join('') +
+        '<p style="margin:14px 0 0;font-size:0.82rem;color:var(--ink-soft);">(데모 화면) 실제로 발송되지 않아요 · 실제 서비스에서는 사장님이 확인 후 직접 전송해요.</p>';
+      }, 900);
+    });
+  }
+
+  // ⑤ 리뷰 관리 -- 보조 기능(하위 카드). 기존에 구현된 리뷰 답변 로직은
+  // 그대로 유지하되, 기본 접힘 상태로 두어 메인 역할처럼 보이지 않게 한다.
+  function renderReviewSubcard() {
+    var insight = SW.computeReviewsInsight();
+    reviewEl.innerHTML =
+      '<div class="hana-review-subcard reveal">' +
+        '<span class="eyebrow">리뷰 관리 · 보조 기능</span>' +
+        '<h3>새 리뷰 ' + insight.total + '건 / 답변 필요 ' + insight.needsResponse.length + '건</h3>' +
+        '<button type="button" class="btn btn-ghost" id="hana-review-toggle" style="margin-top:6px;">리뷰 확인하기 →</button>' +
+        '<div id="hana-review-body" hidden style="margin-top:14px;"></div>' +
+      '</div>';
+
+    var toggleBtn = document.getElementById('hana-review-toggle');
+    var bodyEl = document.getElementById('hana-review-body');
+    toggleBtn.addEventListener('click', function () {
+      var opening = bodyEl.hidden;
+      bodyEl.hidden = !opening;
+      toggleBtn.textContent = opening ? '리뷰 접기 ←' : '리뷰 확인하기 →';
+      if (opening && !bodyEl.dataset.rendered) {
+        bodyEl.dataset.rendered = '1';
+        renderReviewBody(bodyEl, insight);
+      }
+    });
+  }
+
+  function renderReviewBody(bodyEl, insight) {
+    var hasUrgent = insight.needsResponse.length > 0;
+    bodyEl.innerHTML =
+      '<p class="briefing-detail-lede" style="margin:0;">' +
+        (hasUrgent
+          ? ('새 리뷰 ' + insight.total + '건 중 답변이 필요한 리뷰 ' + insight.needsResponse.length + '건을 찾았어요.')
+          : ('새 리뷰 ' + insight.total + '건을 확인했어요. 답변이 필요한 리뷰는 없어요.')) +
+      '</p>' +
+      (hasUrgent
+        ? '<div class="mvp-schedule-cta"><button type="button" class="btn btn-primary" id="hana-report-btn">답변 초안 확인하기 →</button></div><div id="hana-report-detail"></div>'
+        : '');
     if (!hasUrgent) return;
     var btn = document.getElementById('hana-report-btn');
     var detailEl = document.getElementById('hana-report-detail');
@@ -10594,11 +11062,12 @@ try {
     });
   }
 
+  // ⑥ 하나의 고객 업무보고 -- 기존 리뷰 실행기록 그대로(구조 변경 없음).
   function renderRecords() {
     var records = SW.loadReviewRecords();
     if (!records.length) { recordsEl.innerHTML = ''; return; }
     recordsEl.innerHTML =
-      '<div class="section-head align-left reveal" style="margin:32px 0 16px;max-width:none;"><h2 style="font-size:1.3rem;">하나의 업무보고</h2></div>' +
+      '<div class="section-head align-left reveal" style="margin:32px 0 16px;max-width:none;"><span class="eyebrow" style="display:block;margin-bottom:6px;">고객 업무보고</span><h2 style="font-size:1.3rem;">하나의 고객 업무보고</h2></div>' +
       records.map(function (r) {
         var summary = r.needsResponseCount > 0
           ? ('새 리뷰 ' + r.totalCount + '건 확인 · 답변 필요 ' + r.needsResponseCount + '건 발견')
@@ -10611,7 +11080,14 @@ try {
       }).join('');
   }
 
-  window.SM_renderHanaHome = function () { renderBrief(); renderRecords(); };
+  window.SM_renderHanaHome = function () {
+    var reservations = renderReservationBrief();
+    renderReservationFindings(reservations);
+    renderInquiries();
+    renderFollowUps();
+    renderReviewSubcard();
+    renderRecords();
+  };
 })();
 </script>
 
